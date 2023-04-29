@@ -1,5 +1,5 @@
 import { SORTFUNC } from "./sortcommon.js";
-import { bubbleSort } from "./sortfunc.js";
+import { bubbleSort, shakersort } from "./sortfunc.js";
 
 export const WIDTH = 150;
 export const HEIGHT = 150;
@@ -16,6 +16,9 @@ export const sortDict: {
     sortFunc: bubbleSort,
     caption: "bubble sort.",
   },
+  shakersort: {
+    selector: ".shakersort",
+    sortFunc: shakersort,
+    caption: "(cocktail) shaker sort",
+  },
 };
-
-export const swapSleep = 300;

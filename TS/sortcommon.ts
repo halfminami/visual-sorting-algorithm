@@ -1,54 +1,74 @@
-import { swapSleep } from "./setting.js";
+import { sortDict } from "./setting.js";
+import { ArrayWrap, SortWrap } from "./sortcore.js";
 
-export type SORTFUNC = (
-  arr: number[],
-  box: HTMLDivElement
-) => Promise<number[]>;
+export type SORTFUNC = (arr: ArrayWrap) => Promise<ArrayWrap>;
 
 export type CONTROLS = {
-  shuffleBtn: HTMLButtonElement;
-  almostSortedChk: HTMLInputElement;
-  reverseChk: HTMLInputElement;
-  startBtn: HTMLButtonElement;
+  shuffleBtn?: HTMLButtonElement;
+  almostSortedChk?: HTMLInputElement;
+  reverseChk?: HTMLInputElement;
+  startBtn?: HTMLButtonElement;
+  sleepInput?: HTMLInputElement;
 };
 /** create buttons and inputs */
 export function controlForms(first: Element): CONTROLS | undefined {
   if (first.parentElement) {
-    const shuffleBtn = first.parentElement.insertBefore(
-      document.createElement("button"),
+    const div = first.parentElement.insertBefore(
+      document.createElement("div"),
       first
     );
+    const shuffleBtn = div.appendChild(document.createElement("button"));
     shuffleBtn.textContent = "shuffle";
     const almostSortedChk = document.createElement("input");
     almostSortedChk.type = "checkbox";
     {
-      const label = first.parentElement.insertBefore(
-        document.createElement("label"),
-        first
-      );
+      const label = div.appendChild(document.createElement("label"));
       label.textContent = "almost sorted";
       label.appendChild(almostSortedChk);
     }
     const reverseChk = document.createElement("input");
     reverseChk.type = "checkbox";
     {
-      const label = first.parentElement.insertBefore(
-        document.createElement("label"),
-        first
-      );
+      const label = div.appendChild(document.createElement("label"));
       label.textContent = "reverse array";
       label.appendChild(reverseChk);
     }
-    const startBtn = first.parentElement.insertBefore(
-      document.createElement("button"),
-      first
-    );
+    const startBtn = div.appendChild(document.createElement("button"));
     startBtn.textContent = "sort start";
-    return { shuffleBtn, almostSortedChk, reverseChk, startBtn };
+    const sleepInput = div.appendChild(document.createElement("input"));
+    sleepInput.type = "range";
+    sleepInput.min = "0";
+    sleepInput.max = "200";
+    return { shuffleBtn, almostSortedChk, reverseChk, startBtn, sleepInput };
   }
   return undefined;
 }
 
+export function wrapAll(
+  size: number,
+  width: number,
+  height: number,
+  array: number[]
+): SortWrap[] {
+  const ret: SortWrap[] = [];
+  for (let item in sortDict) {
+    const divs = document.querySelectorAll<HTMLDivElement>(
+      sortDict[item].selector
+    );
+    for (let div of divs) {
+      div.classList.add("sort-mounted");
+      const sortBox = insertSortBox(
+        div,
+        size,
+        width,
+        height,
+        sortDict[item].caption
+      );
+      ret.push(new SortWrap(sortBox, array, sortDict[item].sortFunc));
+    }
+  }
+  return ret;
+}
 function sleep(time: number) {
   return new Promise((res, rej) => {
     setTimeout(res, time);
@@ -144,17 +164,18 @@ export async function arrswapClock(
   arr: number[],
   idx1: number,
   idx2: number,
-  sortBox: HTMLDivElement
+  sortBox: HTMLDivElement,
+  sleepCnt: () => number
 ) {
   arrswap(arr, idx1, idx2);
   for (let i of [idx1, idx2]) {
     const item = indexUnit(sortBox, i);
     if (item) {
-      item.style.height = unitHeight(arr, arr[i]);
+      item.style.height = unitHeight(arr, i);
       item.classList.add("change");
     }
   }
-  await sleep(swapSleep);
+  await sleep(sleepCnt());
   for (let i of [idx1, idx2]) {
     const item = indexUnit(sortBox, i);
     if (item) {

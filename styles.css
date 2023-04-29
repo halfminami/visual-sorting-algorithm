@@ -1,6 +1,7 @@
 :root {
   --sort-box-border: 2px solid black;
   --sort-unit-color: yellowgreen;
+  --sort-unit-color-change: green;
 }
 .sort-box {
   border: var(--sort-box-border);
@@ -13,4 +14,19 @@
 }
 button:disabled {
   opacity: 0.8;
+}
+.change {
+  background-color: var(--sort-unit-color-change) !important;
+}
+
+/* from left to right */
+.flexrow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+.flexrow > div {
+  flex-grow: 2;
 }
