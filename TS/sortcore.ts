@@ -4,6 +4,9 @@ import {
   randomArray,
   CONTROLS,
   arrswapClock,
+  leftBiggerClock,
+  isSorted,
+  equalsClock,
 } from "./sortcommon.js";
 export class Sort {
   /** represents array that is set before sorting starts */
@@ -21,7 +24,7 @@ export class Sort {
     }
     if (this.controls.sleepInput) {
       for (let item of this.components) {
-        console.log(this.controls.sleepInput);
+        // console.log(this.controls.sleepInput);
         item.array.sleepInput = this.controls.sleepInput;
       }
     }
@@ -34,7 +37,6 @@ export class Sort {
       );
       for (let item of this.components) {
         item.setArray(this.array);
-        console.log(item.array.sleepInput);
       }
     });
 
@@ -45,13 +47,13 @@ export class Sort {
       if (this.controls.shuffleBtn) {
         this.controls.shuffleBtn.disabled = true;
       }
-      const promiseArr: Promise<ArrayWrap>[] = [];
+      const promiseArr: Promise<any>[] = [];
       for (let item of this.components) {
         promiseArr.push(item.runSort());
       }
       Promise.all(promiseArr)
         .then(() => {
-          console.log("finished!");
+          console.log("all sorts finished!");
         })
         .catch((err) => console.log(err))
         .then(() => {
@@ -69,8 +71,15 @@ export class SortWrap {
   sortBox: HTMLDivElement;
   /** sort function swaps this */
   array: ArrayWrap;
+  name: string;
   sortFunc: SORTFUNC;
-  constructor(sortBox: HTMLDivElement, array: number[], sortFunc: SORTFUNC) {
+  constructor(
+    name: string,
+    sortBox: HTMLDivElement,
+    array: number[],
+    sortFunc: SORTFUNC
+  ) {
+    this.name = name;
     this.sortBox = sortBox;
     this.sortFunc = sortFunc;
     this.array = new ArrayWrap(array, this.sortBox);
@@ -82,8 +91,10 @@ export class SortWrap {
     this.array.setArray(arr);
     this.#setUnit();
   }
-  runSort() {
-    return this.sortFunc(this.array);
+  async runSort() {
+    const ret = await this.sortFunc(this.array);
+    console.log(this.name, isSorted(ret.array) ? "sorted!" : "not sorted...");
+    return ret;
   }
   #setUnit() {
     initUnit(this.sortBox, this.array.array);
@@ -100,11 +111,33 @@ export class ArrayWrap {
     this.sortBox = box;
     this.sleepInput = undefined;
   }
+
   #sleepCnt = () => (this.sleepInput && parseInt(this.sleepInput.value)) ?? 300;
+
   async swap(idx1: number, idx2: number) {
     await this.#swapClock(this.array, idx1, idx2, this.sortBox, this.#sleepCnt);
   }
   setArray(arr: number[]) {
     this.array = arr.concat();
+  }
+  async leftBigger(idx1: number, idx2: number) {
+    const ret = await leftBiggerClock(
+      this.array,
+      idx1,
+      idx2,
+      this.sortBox,
+      this.#sleepCnt
+    );
+    return ret;
+  }
+  async equals(idx: number, value: number) {
+    const ret = await equalsClock(
+      this.array,
+      idx,
+      this.sortBox,
+      this.#sleepCnt,
+      value
+    );
+    return ret;
   }
 }

@@ -1,5 +1,5 @@
 import { SORTFUNC } from "./sortcommon.js";
-import { bubbleSort, shakersort } from "./sortfunc.js";
+import { bubbleSort, mergesort, shakersort } from "./sortfunc.js";
 
 export const WIDTH = 150;
 export const HEIGHT = 150;
@@ -9,16 +9,25 @@ export const sortDict: {
     selector: string;
     sortFunc: SORTFUNC;
     caption: string;
+    name: string;
   };
 } = {
   bubblesort: {
     selector: ".bubblesort",
     sortFunc: bubbleSort,
     caption: "bubble sort.",
+    name: "bubble sort",
   },
   shakersort: {
     selector: ".shakersort",
     sortFunc: shakersort,
-    caption: "(cocktail) shaker sort",
+    caption: "(cocktail) shaker sort.",
+    name: "shaker sort",
+  },
+  mergesort: {
+    selector: ".mergesort",
+    sortFunc: mergesort,
+    caption: "merge sort.",
+    name: "merge sort",
   },
 };

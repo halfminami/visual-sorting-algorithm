@@ -3,6 +3,10 @@
   --sort-unit-color: yellowgreen;
   --sort-unit-color-change: green;
 }
+.sort-mounted {
+  width: fit-content;
+  display: inline-block;
+}
 .sort-box {
   border: var(--sort-box-border);
   display: grid;
@@ -17,16 +21,4 @@ button:disabled {
 }
 .change {
   background-color: var(--sort-unit-color-change) !important;
-}
-
-/* from left to right */
-.flexrow {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: flex-start;
-}
-.flexrow > div {
-  flex-grow: 2;
 }

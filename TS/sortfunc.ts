@@ -1,10 +1,12 @@
 import { ArrayWrap } from "./sortcore.js";
 
+/** i'm afraid i didn't implement some of them correctly  */
 export async function bubbleSort(arr: ArrayWrap) {
   for (let i = 0; i < arr.array.length - 1; ++i) {
     let cnt = 0;
     for (let j = 0; j < arr.array.length - i - 1; ++j) {
-      if (arr.array[j] > arr.array[j + 1]) {
+      // if (arr.array[j] > arr.array[j + 1]) {
+      if (await arr.leftBigger(j, j + 1)) {
         cnt = 0;
         await arr.swap(j, j + 1);
       } else {
@@ -17,36 +19,69 @@ export async function bubbleSort(arr: ArrayWrap) {
 }
 
 export async function shakersort(arr: ArrayWrap) {
-  for (let left = 0; left < arr.array.length; ++left) {
-    for (let right = arr.array.length; right > 0; --right) {
-      if (left > right) {
-        break;
+  for (let left = 0, right = arr.array.length - 1; left < right; ) {
+    // ???
+    let rightcnt = 0;
+    for (let i = left; i <= right; ++i) {
+      if (i < arr.array.length - 1 && (await arr.leftBigger(i, i + 1))) {
+        rightcnt = 0;
+        await arr.swap(i, i + 1);
+      } else {
+        rightcnt++;
       }
-      let rightcnt = 0;
-      for (let i = left; i < right; ++i) {
-        if (i < arr.array.length - 1 && arr.array[i] > arr.array[i + 1]) {
-          rightcnt = 0;
-          await arr.swap(i, i + 1);
-        } else {
-          rightcnt++;
-        }
-      }
-      right -= rightcnt;
-
-      if (left > right) {
-        break;
-      }
-      let leftcnt = 0;
-      for (let i = right - 1; i >= left; --i) {
-        if (i > 0 && arr.array[i - 1] > arr.array[i]) {
-          leftcnt = 0;
-          await arr.swap(i - 1, i);
-        } else {
-          leftcnt++;
-        }
-      }
-      left += leftcnt;
     }
+    right -= rightcnt;
+    // right--;
+
+    let leftcnt = 0;
+    for (let i = right; i >= left; --i) {
+      if (i > 0 && (await arr.leftBigger(i - 1, i))) {
+        leftcnt = 0;
+        await arr.swap(i - 1, i);
+      } else {
+        leftcnt++;
+      }
+    }
+    left += leftcnt;
+    // left++;
   }
   return arr;
+}
+export async function mergesort(arr: ArrayWrap) {
+  await mergesort_core(arr, 0, arr.array.length - 1);
+  return arr;
+}
+/** includes left and right */
+async function mergesort_core(arr: ArrayWrap, left: number, right: number) {
+  console.log(left, right);
+  if (left == right) {
+    return;
+  }
+  let mid = Math.floor(left + (right - left) / 2);
+  await mergesort_core(arr, left, mid);
+  await mergesort_core(arr, mid + 1, right);
+  const memo: number[] = [];
+  let lp = left,
+    rp = mid + 1;
+  const le = mid,
+    re = right;
+  while (lp <= le && rp <= re) {
+    if (await arr.leftBigger(lp, rp)) {
+      memo.push(arr.array[rp]);
+      rp++;
+    } else {
+      memo.push(arr.array[lp]);
+      lp++;
+    }
+  }
+  for (; lp <= le; ++lp) {
+    memo.push(arr.array[lp]);
+  }
+  for (; rp <= re; ++rp) {
+    memo.push(arr.array[rp]);
+  }
+  for (let i = 0; left <= right && i < memo.length; ++left, ++i) {
+    await arr.equals(left, memo[i]);
+  }
+  return;
 }

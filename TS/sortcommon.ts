@@ -39,6 +39,7 @@ export function controlForms(first: Element): CONTROLS | undefined {
     sleepInput.type = "range";
     sleepInput.min = "0";
     sleepInput.max = "200";
+    sleepInput.value = "10";
     return { shuffleBtn, almostSortedChk, reverseChk, startBtn, sleepInput };
   }
   return undefined;
@@ -64,7 +65,14 @@ export function wrapAll(
         height,
         sortDict[item].caption
       );
-      ret.push(new SortWrap(sortBox, array, sortDict[item].sortFunc));
+      ret.push(
+        new SortWrap(
+          sortDict[item].name,
+          sortBox,
+          array,
+          sortDict[item].sortFunc
+        )
+      );
     }
   }
   return ret;
@@ -172,17 +180,54 @@ export async function arrswapClock(
     const item = indexUnit(sortBox, i);
     if (item) {
       item.style.height = unitHeight(arr, i);
-      item.classList.add("change");
     }
   }
+
+  toggleChange([idx1, idx2], sortBox);
   await sleep(sleepCnt());
-  for (let i of [idx1, idx2]) {
+  toggleChange([idx1, idx2], sortBox);
+  return;
+}
+export async function leftBiggerClock(
+  arr: number[],
+  idx1: number,
+  idx2: number,
+  sortBox: HTMLDivElement,
+  sleepCnt: () => number
+) {
+  const ret = arr[idx1] > arr[idx2];
+
+  toggleChange([idx1, idx2], sortBox);
+  await sleep(sleepCnt() / 2); // 2 is random number
+  toggleChange([idx1, idx2], sortBox);
+  return ret;
+}
+/** for copy (mergesort) */
+export async function equalsClock(
+  arr: number[],
+  idx1: number,
+  sortBox: HTMLDivElement,
+  sleepCnt: () => number,
+  value: number
+) {
+  arr[idx1] = value;
+  const item = indexUnit(sortBox, idx1);
+  if (item) {
+    item.style.height = unitHeight(arr, idx1);
+  }
+
+  toggleChange([idx1], sortBox);
+  await sleep(sleepCnt() / 10); // 10 is random number
+  toggleChange([idx1], sortBox);
+  return arr[idx1];
+}
+function toggleChange(indxs: number[], sortBox: HTMLDivElement) {
+  for (let i of indxs) {
     const item = indexUnit(sortBox, i);
     if (item) {
-      item.classList.remove("change");
+      item.classList.toggle("change");
     }
   }
-  return;
 }
 /** gets sort-unit */
 function indexUnit(
