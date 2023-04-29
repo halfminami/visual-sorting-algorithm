@@ -1,0 +1,16 @@
+:root {
+  --sort-box-border: 2px solid black;
+  --sort-unit-color: yellowgreen;
+}
+.sort-box {
+  border: var(--sort-box-border);
+  display: grid;
+}
+.sort-unit {
+  background-color: var(--sort-unit-color);
+  margin: auto 0 0 0;
+  display: block;
+}
+button:disabled {
+  opacity: 0.8;
+}

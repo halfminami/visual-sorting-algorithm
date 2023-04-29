@@ -1,0 +1,202 @@
+import { swapSleep } from "./setting.js";
+
+export type SORTFUNC = (
+  arr: number[],
+  box: HTMLDivElement
+) => Promise<number[]>;
+
+export type CONTROLS = {
+  shuffleBtn: HTMLButtonElement;
+  almostSortedChk: HTMLInputElement;
+  reverseChk: HTMLInputElement;
+  startBtn: HTMLButtonElement;
+};
+/** create buttons and inputs */
+export function controlForms(first: Element): CONTROLS | undefined {
+  if (first.parentElement) {
+    const shuffleBtn = first.parentElement.insertBefore(
+      document.createElement("button"),
+      first
+    );
+    shuffleBtn.textContent = "shuffle";
+    const almostSortedChk = document.createElement("input");
+    almostSortedChk.type = "checkbox";
+    {
+      const label = first.parentElement.insertBefore(
+        document.createElement("label"),
+        first
+      );
+      label.textContent = "almost sorted";
+      label.appendChild(almostSortedChk);
+    }
+    const reverseChk = document.createElement("input");
+    reverseChk.type = "checkbox";
+    {
+      const label = first.parentElement.insertBefore(
+        document.createElement("label"),
+        first
+      );
+      label.textContent = "reverse array";
+      label.appendChild(reverseChk);
+    }
+    const startBtn = first.parentElement.insertBefore(
+      document.createElement("button"),
+      first
+    );
+    startBtn.textContent = "sort start";
+    return { shuffleBtn, almostSortedChk, reverseChk, startBtn };
+  }
+  return undefined;
+}
+
+function sleep(time: number) {
+  return new Promise((res, rej) => {
+    setTimeout(res, time);
+  });
+}
+/**
+ * random array by *Algorithm P (Shuffling)*
+ * @see {@link https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle}
+ * @param size array size
+ * @param almostSorted if true, the array is not shuffled completely
+ * @param reverse if true, reverse the array (for `almostSorted=true`)
+ */
+export function randomArray(
+  size = 0,
+  almostSorted = false,
+  reverse = false
+): number[] {
+  let cnt = -1;
+  const ret = new Array(size).fill(0).map((item) => {
+    cnt++;
+    return cnt;
+  });
+
+  // randomise
+  if (almostSorted) {
+    // limit shuffle range
+    const mgn = 3;
+    for (let i = 0; i < size - 1; ++i) {
+      arrswap(ret, i, mathrandint(i, Math.min(size - 1, i + mgn)));
+    }
+  } else {
+    // shuffling
+    for (let i = 0; i < size - 1; ++i) {
+      arrswap(ret, i, mathrandint(i, size - 1));
+    }
+  }
+
+  if (reverse) {
+    for (let i = 0; i < Math.floor(size / 2); ++i) {
+      arrswap(ret, i, size - 1 - i);
+    }
+  }
+  return ret;
+}
+/** check if sort finished correctly */
+export function isSorted(arr: number[]): boolean {
+  let ret = true;
+  for (let i = 0; i < arr.length; ++i) {
+    if (arr[i] != i) {
+      ret = false;
+    }
+  }
+  return ret;
+}
+export function insertSortBox(
+  parent: HTMLDivElement,
+  size: number,
+  width: number,
+  height: number,
+  caption: string
+): HTMLDivElement {
+  const figure = parent.appendChild(document.createElement("figure"));
+  const sortBox = figure.appendChild(document.createElement("div"));
+
+  const figcaption = figure.appendChild(document.createElement("figcaption"));
+  figcaption.textContent = caption;
+
+  sortBox.classList.add("sort-box");
+  sortBox.style.width = `${width}px`;
+  sortBox.style.height = `${height}px`;
+  sortBox.style.gridTemplateColumns = `repeat(${size},1fr)`;
+
+  for (let i = 0; i < size; ++i) {
+    sortBox
+      .appendChild(document.createElement("div"))
+      .classList.add("sort-unit");
+  }
+
+  return sortBox;
+}
+/** set height of existing unit */
+export function initUnit(box: HTMLDivElement, arr: number[]): number[] {
+  for (let i = 0; i < arr.length; ++i) {
+    const unit = indexUnit(box, i);
+    if (unit) {
+      unit.style.height = unitHeight(arr, i);
+    }
+  }
+
+  return arr;
+}
+export async function arrswapClock(
+  arr: number[],
+  idx1: number,
+  idx2: number,
+  sortBox: HTMLDivElement
+) {
+  arrswap(arr, idx1, idx2);
+  for (let i of [idx1, idx2]) {
+    const item = indexUnit(sortBox, i);
+    if (item) {
+      item.style.height = unitHeight(arr, arr[i]);
+      item.classList.add("change");
+    }
+  }
+  await sleep(swapSleep);
+  for (let i of [idx1, idx2]) {
+    const item = indexUnit(sortBox, i);
+    if (item) {
+      item.classList.remove("change");
+    }
+  }
+  return;
+}
+/** gets sort-unit */
+function indexUnit(
+  sortBox: HTMLDivElement,
+  index: number
+): HTMLDivElement | null {
+  return sortBox.querySelector<HTMLDivElement>(
+    `.sort-unit:nth-of-type(${index + 1})`
+  );
+}
+/** `style.height` */
+function unitHeight(arr: number[], index: number): string {
+  return `${(arr[index] / (arr.length - 1)) * 100}%`;
+}
+/** includes begin and end */
+function mathrandint(begin: number, end: number): number {
+  end++;
+  if (0 < end - begin && end - begin < 1) return Math.floor(end);
+  begin = Math.ceil(begin);
+  end = Math.floor(end);
+  if (end - begin < 0) return 0;
+  return Math.min(Math.floor(Math.random() * (end - begin)) + begin, end - 1);
+}
+function arrswap<T>(arr: T[], idx1: number, idx2: number): void {
+  if (idx1 == idx2) {
+    // console.log("didn't swap", arr, idx1, idx2);
+    return;
+  }
+  if (idx1 < 0 || idx2 < 0 || idx1 > arr.length || idx2 > arr.length) {
+    // console.log("invalid index", arr, idx1, idx2);
+    return;
+  }
+  //   console.log("swap", arr, idx1, idx2);
+  const tmp = arr[idx2];
+  arr[idx2] = arr[idx1];
+  arr[idx1] = tmp;
+  return;
+}
