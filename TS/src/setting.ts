@@ -1,5 +1,11 @@
 import { SORTFUNC } from "./sortcommon.js";
-import { bubbleSort, gnomesort, mergesort, shakersort } from "./sortfunc.js";
+import {
+  bubbleSort,
+  gnomesort,
+  mergesort,
+  radixsort,
+  shakersort,
+} from "./sortfunc.js";
 
 export const WIDTH = 150;
 export const HEIGHT = 150;
@@ -41,5 +47,11 @@ export const sortDict: {
     sortFunc: gnomesort,
     caption: "gnome sort.",
     name: "gnome sort",
+  },
+  radixsort: {
+    selector: ".radixsort",
+    sortFunc: radixsort,
+    caption: "radix sort (ABCDE)",
+    name: "radix sort (5)",
   },
 };

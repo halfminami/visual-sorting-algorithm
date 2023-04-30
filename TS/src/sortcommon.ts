@@ -10,6 +10,7 @@ export type CONTROLS = {
   startBtn?: HTMLButtonElement | null;
   sleepInput?: HTMLInputElement | null;
 };
+
 /** create buttons and inputs */
 export function controlForms(first: Element): CONTROLS | undefined {
   if (first.parentElement) {
@@ -82,6 +83,7 @@ function sleep(time: number) {
     setTimeout(res, time);
   });
 }
+
 /**
  * random array (0~size-1) by *Algorithm P (Shuffling)*
  * @see {@link https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle}
@@ -121,6 +123,7 @@ export function randomArray(
   }
   return ret;
 }
+
 /** check if sort finished correctly */
 export function isSorted(arr: number[]): boolean {
   let ret = true;
@@ -131,6 +134,7 @@ export function isSorted(arr: number[]): boolean {
   }
   return ret;
 }
+
 /**
  * create `div.sort-box`
  * @param parent create element inside this
@@ -166,6 +170,7 @@ export function insertSortBox(
 
   return sortBox;
 }
+
 /** set height of existing unit */
 export function initUnit(box: HTMLDivElement, arr: number[]): number[] {
   for (let i = 0; i < arr.length; ++i) {
@@ -177,6 +182,7 @@ export function initUnit(box: HTMLDivElement, arr: number[]): number[] {
 
   return arr;
 }
+
 export async function arrswapClock(
   arr: number[],
   idx1: number,
@@ -197,6 +203,7 @@ export async function arrswapClock(
   toggleChange([idx1, idx2], sortBox);
   return;
 }
+
 export async function leftBiggerClock(
   arr: number[],
   idx1: number,
@@ -211,6 +218,7 @@ export async function leftBiggerClock(
   toggleChange([idx1, idx2], sortBox);
   return ret;
 }
+
 /** for copy (mergesort) */
 export async function equalsClock(
   arr: number[],
@@ -238,6 +246,7 @@ function toggleChange(indxs: number[], sortBox: HTMLDivElement) {
     }
   }
 }
+
 /** gets sort-unit */
 function indexUnit(
   sortBox: HTMLDivElement,

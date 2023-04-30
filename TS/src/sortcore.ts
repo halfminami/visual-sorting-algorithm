@@ -1,3 +1,7 @@
+/**
+ * @file class for sorting
+ */
+
 import {
   SORTFUNC,
   initUnit,
@@ -75,6 +79,7 @@ export class Sort {
     });
   }
 }
+
 export class SortWrap {
   sortBox: HTMLDivElement;
   /** sort function swaps this */

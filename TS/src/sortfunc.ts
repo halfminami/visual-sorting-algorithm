@@ -9,7 +9,6 @@ export async function bubbleSort(arr: ArrayWrap) {
   for (let i = 0; i < arr.array.length - 1; ++i) {
     let cnt = 0;
     for (let j = 0; j < arr.array.length - i - 1; ++j) {
-      // if (arr.array[j] > arr.array[j + 1]) {
       if (await arr.leftBigger(j, j + 1)) {
         cnt = 0;
         await arr.swap(j, j + 1);
@@ -101,4 +100,58 @@ export async function gnomesort(arr: ArrayWrap) {
   }
 
   return arr;
+}
+
+export async function radixsort(arr: ArrayWrap) {
+  const base = "ABCDE";
+  const memo: { [key: string]: [string, number][] } = {};
+  const initmemo = () => {
+    for (let c of base) {
+      memo[c] = [];
+    }
+    memo[" "] = [];
+  };
+  const cparr: [string, number][] = [];
+  for (let i = 0; i < arr.array.length; ++i) {
+    cparr[i] = [convertRadix(arr.array[i], base), arr.array[i]];
+  }
+
+  let cur = 0;
+  while (1) {
+    initmemo();
+    for (let item of cparr) {
+      memo[item[0][item[0].length - 1 - cur] || " "].push(item);
+    }
+    if (memo[" "].length == arr.array.length) {
+      break;
+    }
+    let p = 0;
+    for (let item of memo[" "]) {
+      cparr[p] = item;
+      p++;
+    }
+    for (let c of base) {
+      for (let item of memo[c]) {
+        cparr[p] = item;
+        p++;
+      }
+    }
+
+    for (let i = 0; i < cparr.length; ++i) {
+      await arr.equals(i, cparr[i][1]);
+    }
+
+    cur++;
+  }
+
+  return arr;
+}
+function convertRadix(n: number, base: string): string {
+  let ret = "";
+  while (n) {
+    ret = base[n % base.length] + ret;
+    n = Math.floor(n / base.length);
+  }
+
+  return ret;
 }
