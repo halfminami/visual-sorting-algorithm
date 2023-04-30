@@ -217,7 +217,7 @@ export async function equalsClock(
   }
 
   toggleChange([idx1], sortBox);
-  await sleep(sleepCnt() / 10); // 10 is random number
+  await sleep(sleepCnt());
   toggleChange([idx1], sortBox);
   return arr[idx1];
 }
@@ -253,14 +253,11 @@ function mathrandint(begin: number, end: number): number {
 }
 function arrswap<T>(arr: T[], idx1: number, idx2: number): void {
   if (idx1 == idx2) {
-    // console.log("didn't swap", arr, idx1, idx2);
     return;
   }
   if (idx1 < 0 || idx2 < 0 || idx1 > arr.length || idx2 > arr.length) {
-    // console.log("invalid index", arr, idx1, idx2);
     return;
   }
-  //   console.log("swap", arr, idx1, idx2);
   const tmp = arr[idx2];
   arr[idx2] = arr[idx1];
   arr[idx1] = tmp;

@@ -22,3 +22,6 @@ button:disabled {
 .change {
   background-color: var(--sort-unit-color-change) !important;
 }
+.sorting {
+  border-color: darkred;
+}

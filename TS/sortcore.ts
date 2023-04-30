@@ -92,8 +92,10 @@ export class SortWrap {
     this.#setUnit();
   }
   async runSort() {
+    this.sortBox.classList.add("sorting");
     const ret = await this.sortFunc(this.array);
     console.log(this.name, isSorted(ret.array) ? "sorted!" : "not sorted...");
+    this.sortBox.classList.remove("sorting");
     return ret;
   }
   #setUnit() {
@@ -120,6 +122,7 @@ export class ArrayWrap {
   setArray(arr: number[]) {
     this.array = arr.concat();
   }
+  /** @returns left>right */
   async leftBigger(idx1: number, idx2: number) {
     const ret = await leftBiggerClock(
       this.array,
@@ -130,6 +133,7 @@ export class ArrayWrap {
     );
     return ret;
   }
+  /** for copy (mergesort) */
   async equals(idx: number, value: number) {
     const ret = await equalsClock(
       this.array,

@@ -1,6 +1,10 @@
+/**
+ * @file collection of sorting algorithms
+ * implement with `ArrayWrap` methods, like other functions
+ * i'm afraid i didn't implement some of them correctly
+ */
 import { ArrayWrap } from "./sortcore.js";
 
-/** i'm afraid i didn't implement some of them correctly  */
 export async function bubbleSort(arr: ArrayWrap) {
   for (let i = 0; i < arr.array.length - 1; ++i) {
     let cnt = 0;
@@ -20,7 +24,6 @@ export async function bubbleSort(arr: ArrayWrap) {
 
 export async function shakersort(arr: ArrayWrap) {
   for (let left = 0, right = arr.array.length - 1; left < right; ) {
-    // ???
     let rightcnt = 0;
     for (let i = left; i <= right; ++i) {
       if (i < arr.array.length - 1 && (await arr.leftBigger(i, i + 1))) {
@@ -53,7 +56,6 @@ export async function mergesort(arr: ArrayWrap) {
 }
 /** includes left and right */
 async function mergesort_core(arr: ArrayWrap, left: number, right: number) {
-  console.log(left, right);
   if (left == right) {
     return;
   }
