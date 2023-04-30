@@ -1,5 +1,7 @@
 # make sorting visual
 This visualizes sorting algorithms like many other examples found when googling gif of sorts.
+<img src="./screenshot.png" style="width:500px;display:block" alt="sorting screenshot">
+This uses html element `div`. So, this cannot record video itself.
 
 # how to add sort
 ## in `sortfunc.ts`
@@ -24,6 +26,9 @@ git clone https://github.com/halfminami/visual-sorting-algorithm.git
 cd visual-sorting-algorithm
 npm install
 npm run tsc
+```
+For `script type="module"`, need to run a local server
+```bash
 npm run start
 ```
 and enter the url into browser (only checked on chrome)

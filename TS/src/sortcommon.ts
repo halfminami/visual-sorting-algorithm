@@ -36,11 +36,16 @@ export function controlForms(first: Element): CONTROLS | undefined {
     }
     const startBtn = div.appendChild(document.createElement("button"));
     startBtn.textContent = "sort start";
-    const sleepInput = div.appendChild(document.createElement("input"));
+    const sleepInput = document.createElement("input");
     sleepInput.type = "range";
     sleepInput.min = "0";
     sleepInput.max = "200";
     sleepInput.value = "10";
+    {
+      const label = div.appendChild(document.createElement("label"));
+      label.textContent = "clock";
+      label.appendChild(sleepInput);
+    }
     return { shuffleBtn, almostSortedChk, reverseChk, startBtn, sleepInput };
   }
   return undefined;
