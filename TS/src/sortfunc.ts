@@ -22,10 +22,10 @@ export async function bubbleSort(arr: ArrayWrap) {
 }
 
 export async function shakersort(arr: ArrayWrap) {
-  for (let left = 0, right = arr.array.length - 1; left < right; ) {
+  for (let left = 0, right = arr.array.length - 1; left <= right; ) {
     let rightcnt = 0;
-    for (let i = left; i <= right; ++i) {
-      if (i < arr.array.length - 1 && (await arr.leftBigger(i, i + 1))) {
+    for (let i = left; i < right; ++i) {
+      if (await arr.leftBigger(i, i + 1)) {
         rightcnt = 0;
         await arr.swap(i, i + 1);
       } else {
@@ -33,11 +33,11 @@ export async function shakersort(arr: ArrayWrap) {
       }
     }
     right -= rightcnt;
-    // right--;
+    right--;
 
     let leftcnt = 0;
-    for (let i = right; i >= left; --i) {
-      if (i > 0 && (await arr.leftBigger(i - 1, i))) {
+    for (let i = right; i > left; --i) {
+      if (await arr.leftBigger(i - 1, i)) {
         leftcnt = 0;
         await arr.swap(i - 1, i);
       } else {
@@ -45,7 +45,7 @@ export async function shakersort(arr: ArrayWrap) {
       }
     }
     left += leftcnt;
-    // left++;
+    left++;
   }
   return arr;
 }
