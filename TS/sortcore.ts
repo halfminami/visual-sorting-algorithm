@@ -8,23 +8,30 @@ import {
   isSorted,
   equalsClock,
 } from "./sortcommon.js";
+
 export class Sort {
   /** represents array that is set before sorting starts */
   array: number[];
   components: SortWrap[];
   controls: CONTROLS;
+  /**
+   * call `mount()` method to handle sorts
+   * @param array shuffled array; uses this length to generate new shuffled array
+   * @param components all sorts that this handles
+   * @param controls buttons and inputs; if one of them is not needed, simply delete it
+   */
   constructor(array: number[], components: SortWrap[], controls: CONTROLS) {
     this.array = array;
     this.components = components;
     this.controls = controls;
   }
+  /** update array and add event listener */
   mount() {
     for (let item of this.components) {
       item.setArray(this.array);
     }
     if (this.controls.sleepInput) {
       for (let item of this.components) {
-        // console.log(this.controls.sleepInput);
         item.array.sleepInput = this.controls.sleepInput;
       }
     }
@@ -73,6 +80,13 @@ export class SortWrap {
   array: ArrayWrap;
   name: string;
   sortFunc: SORTFUNC;
+  /**
+   * individual sort. pass this array to `Sort`
+   * @param name to `console.log()` sort name
+   * @param sortBox needs css and sorting value elements (call sortcommon.ts/`insertSortBox()`)
+   * @param array any array is ok since `Sort` sets it
+   * @param sortFunc sortig function (maybe in setting.ts/`sortDict` and import it)
+   */
   constructor(
     name: string,
     sortBox: HTMLDivElement,

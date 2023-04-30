@@ -50,6 +50,7 @@ export async function shakersort(arr: ArrayWrap) {
   }
   return arr;
 }
+
 export async function mergesort(arr: ArrayWrap) {
   await mergesort_core(arr, 0, arr.array.length - 1);
   return arr;
@@ -86,4 +87,18 @@ async function mergesort_core(arr: ArrayWrap, left: number, right: number) {
     await arr.equals(left, memo[i]);
   }
   return;
+}
+
+export async function gnomesort(arr: ArrayWrap) {
+  let cur = 0;
+  while (cur < arr.array.length) {
+    if (cur == 0 || (await arr.leftBigger(cur, cur - 1))) {
+      cur++;
+    } else {
+      await arr.swap(cur - 1, cur);
+      cur--;
+    }
+  }
+
+  return arr;
 }

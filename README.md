@@ -1,5 +1,5 @@
 # make sorting visual
-This visualises sorting algorithms like many other examples found when googling gif of sorts.
+This visualizes sorting algorithms like many other examples found when googling gif of sorts.
 
 # how to add sort
 ## in `sortfunc.ts`
@@ -8,9 +8,15 @@ This visualises sorting algorithms like many other examples found when googling 
     - `export` the function
     - implement like other sorts
 ## in `setting.ts`
-- add sort into `sortDict`
+- add sort into `sortDict` (import the function)
 ## in `index.html`
 - add element that satisfies `sortDict` selector
+
+# how to perform sort individually
+- `new SortWrap()` all sorts
+- put buttons and inputs to Object `: CONTROLS`
+- `new Sort(...).mount()`
+    - uncomment html and see `individual.ts`
 
 # how to use
 ```bash

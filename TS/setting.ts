@@ -1,9 +1,11 @@
 import { SORTFUNC } from "./sortcommon.js";
-import { bubbleSort, mergesort, shakersort } from "./sortfunc.js";
+import { bubbleSort, gnomesort, mergesort, shakersort } from "./sortfunc.js";
 
 export const WIDTH = 150;
 export const HEIGHT = 150;
 export const SIZE = 60;
+
+/** for `wrapAll()` only (not needed when mounting individually) */
 export const sortDict: {
   [key: string]: {
     /** select which element to mount by `document.querySelector()` */
@@ -33,5 +35,11 @@ export const sortDict: {
     sortFunc: mergesort,
     caption: "merge sort.",
     name: "merge sort",
+  },
+  gnomesort: {
+    selector: ".gnomesort",
+    sortFunc: gnomesort,
+    caption: "gnome sort.",
+    name: "gnome sort",
   },
 };

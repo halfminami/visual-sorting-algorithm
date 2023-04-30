@@ -4,11 +4,11 @@ import { ArrayWrap, SortWrap } from "./sortcore.js";
 export type SORTFUNC = (arr: ArrayWrap) => Promise<ArrayWrap>;
 
 export type CONTROLS = {
-  shuffleBtn?: HTMLButtonElement;
-  almostSortedChk?: HTMLInputElement;
-  reverseChk?: HTMLInputElement;
-  startBtn?: HTMLButtonElement;
-  sleepInput?: HTMLInputElement;
+  shuffleBtn?: HTMLButtonElement | null;
+  almostSortedChk?: HTMLInputElement | null;
+  reverseChk?: HTMLInputElement | null;
+  startBtn?: HTMLButtonElement | null;
+  sleepInput?: HTMLInputElement | null;
 };
 /** create buttons and inputs */
 export function controlForms(first: Element): CONTROLS | undefined {
@@ -83,7 +83,7 @@ function sleep(time: number) {
   });
 }
 /**
- * random array by *Algorithm P (Shuffling)*
+ * random array (0~size-1) by *Algorithm P (Shuffling)*
  * @see {@link https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle}
  * @param size array size
  * @param almostSorted if true, the array is not shuffled completely
@@ -131,6 +131,15 @@ export function isSorted(arr: number[]): boolean {
   }
   return ret;
 }
+/**
+ * create `div.sort-box`
+ * @param parent create element inside this
+ * @param size array size
+ * @param width element width (px)
+ * @param height element height (px)
+ * @param caption figcaption (any string is ok)
+ * @returns div filled with sorting elements
+ */
 export function insertSortBox(
   parent: HTMLDivElement,
   size: number,
