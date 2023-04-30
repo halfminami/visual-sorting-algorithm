@@ -54,6 +54,7 @@ export class Sort {
       if (this.controls.shuffleBtn) {
         this.controls.shuffleBtn.disabled = true;
       }
+      console.log(`[${new Date().toLocaleTimeString()}]`, "sort start!");
       const promiseArr: Promise<any>[] = [];
       for (let item of this.components) {
         promiseArr.push(item.runSort());
@@ -108,7 +109,11 @@ export class SortWrap {
   async runSort() {
     this.sortBox.classList.add("sorting");
     const ret = await this.sortFunc(this.array);
-    console.log(this.name, isSorted(ret.array) ? "sorted!" : "not sorted...");
+    console.log(
+      `[${new Date().toLocaleTimeString()}]`,
+      this.name,
+      isSorted(ret.array) ? "sorted!" : "not sorted..."
+    );
     this.sortBox.classList.remove("sorting");
     return ret;
   }

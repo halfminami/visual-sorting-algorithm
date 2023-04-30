@@ -1,6 +1,9 @@
-import { CONTROLS, insertSortBox, randomArray } from "./sortcommon.js";
-import { Sort, SortWrap } from "./sortcore.js";
-import { gnomesort } from "./sortfunc.js";
+/**
+ * @file example of performing sort individually
+ */
+import { CONTROLS, insertSortBox, randomArray } from "./src/sortcommon.js";
+import { Sort, SortWrap } from "./src/sortcore.js";
+import { gnomesort } from "./src/sortfunc.js";
 
 const par = document.querySelector<HTMLDivElement>(".gnomesort-ind");
 if (par) {
