@@ -206,3 +206,42 @@ async function binary_search(
     return mid;
   }
 }
+
+export async function selectionsort(arr: ArrayWrap) {
+  for (let i = 0; i < arr.array.length - 1; ++i) {
+    let max = 0;
+    for (let j = 1; j < arr.array.length - i; ++j) {
+      if (await arr.leftBigger(j, max)) {
+        max = j;
+      }
+    }
+    await arr.swap(max, arr.array.length - 1 - i);
+  }
+
+  return arr;
+}
+export async function selectionsort_double(arr: ArrayWrap) {
+  for (
+    let left = 0, right = arr.array.length - 1;
+    left < right;
+    ++left, --right
+  ) {
+    let min = left,
+      max = left;
+    for (let j = left + 1; j <= right; ++j) {
+      if (await arr.leftBigger(j, max)) {
+        max = j;
+      }
+      if (await arr.leftBigger(min, j)) {
+        min = j;
+      }
+    }
+    await arr.swap(min, left);
+    if (left == max) {
+      max = min;
+    }
+    await arr.swap(max, right);
+  }
+
+  return arr;
+}

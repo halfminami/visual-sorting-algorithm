@@ -6,6 +6,8 @@ import {
   insertionsort_bin,
   mergesort,
   radixsort,
+  selectionsort,
+  selectionsort_double,
   shakersort,
 } from "./sortfunc.js";
 
@@ -67,5 +69,17 @@ export const sortDict: {
     sortFunc: insertionsort_bin,
     caption: "binary search insertion",
     name: "insertion sort (binary search)",
+  },
+  selectionsort: {
+    selector: ".selectionsort",
+    sortFunc: selectionsort,
+    caption: "selection sort",
+    name: "selection sort (simple)",
+  },
+  selectionsort_d: {
+    selector: ".selectionsort-double",
+    sortFunc: selectionsort_double,
+    caption: "double selection",
+    name: "selection sort (double)",
   },
 };
