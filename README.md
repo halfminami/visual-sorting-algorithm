@@ -54,3 +54,4 @@ I'm afraid I might have implemented wrong!
     - divide by 2
     - divide by 3 (improved gap)
 - comb sort
+- quick sort

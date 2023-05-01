@@ -6,6 +6,7 @@ import {
   insertionsort,
   insertionsort_bin,
   mergesort,
+  quicksort,
   radixsort,
   selectionsort,
   selectionsort_double,
@@ -102,5 +103,11 @@ export const sortDict: {
     sortFunc: combsort,
     caption: "comb sort",
     name: "comb sort",
+  },
+  quicksort: {
+    selector: ".quicksort",
+    sortFunc: quicksort,
+    caption: "quick sort",
+    name: "quick sort ((left + right)/2)",
   },
 };

@@ -307,3 +307,36 @@ export async function combsort(arr: ArrayWrap) {
 
   return arr;
 }
+
+export async function quicksort(arr: ArrayWrap) {
+  await quicksort_core(arr, 0, arr.array.length - 1);
+
+  return arr;
+}
+/** includes left and right */
+async function quicksort_core(arr: ArrayWrap, left: number, right: number) {
+  if (left >= right) {
+    return arr;
+  }
+  const pivot = (arr.array[left] + arr.array[right]) / 2;
+  let lp = left,
+    rp = right;
+  while (1) {
+    for (; lp <= right && (await arr.valueBigger(pivot, lp)); ++lp) {}
+    for (; rp >= left && (await arr.valueSmaller(pivot, rp)); --rp) {}
+    if (lp < rp) {
+      arr.swap(lp, rp);
+    } else {
+      if (left == right - 1) {
+        return arr;
+      }
+      if (lp == left) lp++; // avoid infinite recursion
+      if (lp == right) lp--;
+      await quicksort_core(arr, left, lp);
+      await quicksort_core(arr, lp, right);
+      return arr;
+    }
+  }
+
+  return arr;
+}
