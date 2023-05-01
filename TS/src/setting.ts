@@ -2,6 +2,8 @@ import { SORTFUNC } from "./sortcommon.js";
 import {
   bubbleSort,
   gnomesort,
+  insertionsort,
+  insertionsort_bin,
   mergesort,
   radixsort,
   shakersort,
@@ -53,5 +55,17 @@ export const sortDict: {
     sortFunc: radixsort,
     caption: "radix sort (ABCDE)",
     name: "radix sort (5)",
+  },
+  insertionsort: {
+    selector: ".insertionsort",
+    sortFunc: insertionsort,
+    caption: "simple insertion sort",
+    name: "insertion sort (simple compare)",
+  },
+  insertionsort_bs: {
+    selector: ".insertionsort-bin",
+    sortFunc: insertionsort_bin,
+    caption: "binary search insertion",
+    name: "insertion sort (binary search)",
   },
 };

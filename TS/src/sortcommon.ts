@@ -223,6 +223,34 @@ export async function leftBiggerClock(
   toggleChange([idx1, idx2], sortBox);
   return ret;
 }
+export async function valueBiggerClock(
+  arr: number[],
+  value: number,
+  idx1: number,
+  sortBox: HTMLDivElement,
+  sleepCnt: () => number
+) {
+  const ret = value > arr[idx1];
+
+  toggleChange([idx1], sortBox);
+  await sleep(sleepCnt() / 2); // 2 is random number
+  toggleChange([idx1], sortBox);
+  return ret;
+}
+export async function valueSmallerClock(
+  arr: number[],
+  value: number,
+  idx1: number,
+  sortBox: HTMLDivElement,
+  sleepCnt: () => number
+) {
+  const ret = value < arr[idx1];
+
+  toggleChange([idx1], sortBox);
+  await sleep(sleepCnt() / 2); // 2 is random number
+  toggleChange([idx1], sortBox);
+  return ret;
+}
 
 /** for copy (mergesort) */
 export async function equalsClock(

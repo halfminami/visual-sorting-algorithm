@@ -1,7 +1,7 @@
-# make sorting visual
+# make sorting visual (`element`)
 This visualizes sorting algorithms like many other examples found when googling gif of sorts.
-<img src="./screenshot.png" style="width:500px;display:block" alt="sorting screenshot">
-This uses html element `div`. So, this cannot record video itself.
+<img src="./screenshot.png" style="width:500px;display:block" alt="sorting screenshot">  
+This uses html element `div`. It is easy to style.
 
 # how to add sort
 ## in `sortfunc.ts`

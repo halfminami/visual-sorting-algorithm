@@ -155,3 +155,54 @@ function convertRadix(n: number, base: string): string {
 
   return ret;
 }
+export async function insertionsort(arr: ArrayWrap) {
+  for (let i = 0; i < arr.array.length - 1; ++i) {
+    for (let j = i; j >= 0 && (await arr.leftBigger(j, j + 1)); --j) {
+      await arr.swap(j, j + 1);
+    }
+  }
+
+  return arr;
+}
+export async function insertionsort_bin(arr: ArrayWrap) {
+  for (let i = 0; i < arr.array.length - 1; ++i) {
+    if (await arr.leftBigger(i, i + 1)) {
+      const to = await binary_search(arr, 0, i, arr.array[i + 1]);
+      let j = i;
+      for (; j >= to; --j) {
+        await arr.swap(j, j + 1);
+      }
+      // since this binary search sometimes points wrong index, but why?
+      j++;
+      if (await arr.leftBigger(j, j + 1)) {
+        await arr.swap(j, j + 1);
+      }
+    }
+  }
+
+  return arr;
+}
+/** includes left and right */
+async function binary_search(
+  arr: ArrayWrap,
+  left: number,
+  right: number,
+  value: number
+): Promise<number> {
+  if (left >= right) {
+    return left;
+  }
+  const mid = left + Math.floor((right - left) / 2);
+  if (await arr.valueBigger(value, mid)) {
+    const ret = await binary_search(arr, mid + 1, right, value);
+    return ret;
+  } else if (await arr.valueSmaller(value, mid)) {
+    // in this case no same value exists
+    // so checking if smaller is meaningless
+    // but common binary search checks through, so this does too
+    const ret = await binary_search(arr, left, mid - 1, value);
+    return ret;
+  } else {
+    return mid;
+  }
+}
