@@ -9,6 +9,8 @@ import {
   selectionsort,
   selectionsort_double,
   shakersort,
+  shellsort_div2,
+  shellsort_div3,
 } from "./sortfunc.js";
 
 export const WIDTH = 150;
@@ -81,5 +83,17 @@ export const sortDict: {
     sortFunc: selectionsort_double,
     caption: "double selection",
     name: "selection sort (double)",
+  },
+  shellsort_div3: {
+    selector: ".shellsort3",
+    sortFunc: shellsort_div3,
+    caption: "improved shell",
+    name: "shell sort (div 3)",
+  },
+  shellsort_div2: {
+    selector: ".shellsort2",
+    sortFunc: shellsort_div2,
+    caption: "shell sort",
+    name: "shell sort (div 2)",
   },
 };

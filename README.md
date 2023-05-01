@@ -35,3 +35,18 @@ and enter the url into browser (only checked on chrome)
 
 ## notes
 Clock for sorting (times to compare/swap/copy) is randomly chosen. The actual time differs by architecture.
+
+## sorts i implemented
+I might have implemented wrong!
+- bubble sort
+- cocktail shaker sort
+- merge sort
+- gnome sort
+- radix sort
+    - base 5 (`"ABCDE"`)
+- insertion sort
+    - simple swap
+    - binary search
+- selection sort
+    - simple max select
+    - double select

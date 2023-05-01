@@ -245,3 +245,40 @@ export async function selectionsort_double(arr: ArrayWrap) {
 
   return arr;
 }
+
+export async function shellsort_div2(arr: ArrayWrap) {
+  let gap = Math.floor(arr.array.length / 2),
+    div = 2;
+  await shellsort(arr, gap, div);
+
+  return arr;
+}
+/**
+ * improved gap
+ * @see {@link https://en.wikipedia.org/wiki/Shellsort}
+ */
+export async function shellsort_div3(arr: ArrayWrap) {
+  let gap,
+    div = 3;
+  const calcGap = (x: number) => (3 ** x - 1) / 2;
+  for (let i = 2; ; ++i) {
+    if (Math.ceil(arr.array.length / 3) < calcGap(i)) {
+      gap = Math.floor(calcGap(i - 1));
+      break;
+    }
+  }
+  await shellsort(arr, gap, div);
+
+  return arr;
+}
+async function shellsort(arr: ArrayWrap, gap: number, div: number) {
+  while (gap) {
+    for (let i = 0; i < arr.array.length - gap; ++i) {
+      for (let j = i; j >= 0 && (await arr.leftBigger(j, j + gap)); j -= gap) {
+        arr.swap(j, j + gap);
+      }
+    }
+
+    gap = Math.floor(gap / div);
+  }
+}
