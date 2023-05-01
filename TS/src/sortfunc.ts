@@ -340,3 +340,90 @@ async function quicksort_core(arr: ArrayWrap, left: number, right: number) {
 
   return arr;
 }
+
+export async function circlesort(arr: ArrayWrap) {
+  for (; await circlesort_core(arr, 0, arr.array.length); );
+
+  return arr;
+}
+/** includes left and right */
+async function circlesort_core(
+  arr: ArrayWrap,
+  left: number,
+  right: number
+): Promise<boolean> {
+  let swapped = false;
+  let lp = left,
+    rp = right;
+  if (left >= right) {
+    return swapped;
+  }
+  for (; lp < rp; ++lp, --rp) {
+    if (await arr.leftBigger(lp, rp)) {
+      await arr.swap(lp, rp);
+      swapped = true;
+    }
+  }
+  if (lp == rp) {
+    if (await arr.leftBigger(lp, lp + 1)) {
+      await arr.swap(lp, lp + 1);
+      swapped = true;
+    }
+  }
+  const mid = Math.floor(left + (right - left) / 2);
+  const retleft = await circlesort_core(arr, left, mid);
+  const retright = await circlesort_core(arr, mid + 1, right);
+
+  return swapped || retleft || retright;
+}
+
+export async function heapsort(arr: ArrayWrap) {
+  for (let i = arr.array.length - 1; i >= 0; --i) {
+    await heapsort_heapify(arr, i, arr.array.length - 1);
+  }
+  for (let r = arr.array.length - 1; r >= 0; --r) {
+    await heapsort_deletetop(arr, 0, r);
+  }
+
+  return arr;
+}
+/**
+ * includes left
+ * @param arr
+ * @param top parent
+ * @param right
+ * @returns index to swap or -1
+ */
+async function heapsort_check(
+  arr: ArrayWrap,
+  top: number,
+  right: number
+): Promise<number> {
+  const leftChild = top * 2 + 1,
+    rightChild = top * 2 + 2;
+  if (leftChild > right) {
+    return -1;
+  }
+  if (rightChild > right) {
+    return (await arr.leftBigger(top, leftChild)) ? -1 : leftChild;
+  }
+  let target = (await arr.leftBigger(leftChild, rightChild))
+    ? leftChild
+    : rightChild;
+  return (await arr.leftBigger(top, target)) ? -1 : target;
+}
+/** includes left */
+async function heapsort_heapify(arr: ArrayWrap, top: number, right: number) {
+  let i;
+  if ((i = await heapsort_check(arr, top, right)) != -1) {
+    await arr.swap(top, i);
+    await heapsort_heapify(arr, i, right);
+  }
+  return;
+}
+/** top goes to right and heap right becomes right-1 */
+async function heapsort_deletetop(arr: ArrayWrap, top: number, right: number) {
+  await arr.swap(top, right);
+  await heapsort_heapify(arr, top, right - 1);
+  return;
+}

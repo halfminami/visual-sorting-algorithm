@@ -55,3 +55,5 @@ I'm afraid I might have implemented wrong!
     - divide by 3 (improved gap)
 - comb sort
 - quick sort
+- circle sort
+- heap sort

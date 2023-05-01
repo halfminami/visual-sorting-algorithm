@@ -1,8 +1,10 @@
 import { SORTFUNC } from "./sortcommon.js";
 import {
   bubbleSort,
+  circlesort,
   combsort,
   gnomesort,
+  heapsort,
   insertionsort,
   insertionsort_bin,
   mergesort,
@@ -109,5 +111,17 @@ export const sortDict: {
     sortFunc: quicksort,
     caption: "quick sort",
     name: "quick sort ((left + right)/2)",
+  },
+  circlesort: {
+    selector: ".circlesort",
+    sortFunc: circlesort,
+    caption: "circle sort.",
+    name: "circle sort",
+  },
+  heapsort: {
+    selector: ".heapsort",
+    sortFunc: heapsort,
+    caption: "heap sort",
+    name: "heap sort (max heap)",
   },
 };
