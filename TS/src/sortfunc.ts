@@ -275,10 +275,35 @@ async function shellsort(arr: ArrayWrap, gap: number, div: number) {
   while (gap) {
     for (let i = 0; i < arr.array.length - gap; ++i) {
       for (let j = i; j >= 0 && (await arr.leftBigger(j, j + gap)); j -= gap) {
-        arr.swap(j, j + gap);
+        await arr.swap(j, j + gap);
       }
     }
 
     gap = Math.floor(gap / div);
   }
+}
+
+/** @see {@link https://en.wikipedia.org/wiki/Comb_sort} */
+export async function combsort(arr: ArrayWrap) {
+  const shrink = 1.3;
+  let gap = arr.array.length;
+  while (1) {
+    gap = Math.floor(gap / shrink);
+    let sorted = false;
+    if (gap <= 1) {
+      gap = 1;
+      sorted = true;
+    }
+    for (let i = 0; i < arr.array.length - gap; ++i) {
+      if (await arr.leftBigger(i, i + gap)) {
+        await arr.swap(i, i + gap);
+        sorted = false;
+      }
+    }
+    if (sorted) {
+      break;
+    }
+  }
+
+  return arr;
 }

@@ -40,7 +40,7 @@ export function controlForms(first: Element): CONTROLS | undefined {
     sleepInput.type = "range";
     sleepInput.min = "0";
     sleepInput.max = "200";
-    sleepInput.value = "10";
+    sleepInput.value = "40";
     {
       const label = div.appendChild(document.createElement("label"));
       label.textContent = "clock";

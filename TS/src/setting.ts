@@ -1,6 +1,7 @@
 import { SORTFUNC } from "./sortcommon.js";
 import {
   bubbleSort,
+  combsort,
   gnomesort,
   insertionsort,
   insertionsort_bin,
@@ -95,5 +96,11 @@ export const sortDict: {
     sortFunc: shellsort_div2,
     caption: "shell sort",
     name: "shell sort (div 2)",
+  },
+  combsort: {
+    selector: ".combsort",
+    sortFunc: combsort,
+    caption: "comb sort",
+    name: "comb sort",
   },
 };
