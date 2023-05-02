@@ -223,6 +223,20 @@ export async function leftBiggerClock(
   toggleChange([idx1, idx2], sortBox);
   return ret;
 }
+export async function leftEqualRightClock(
+  arr: number[],
+  idx1: number,
+  idx2: number,
+  sortBox: HTMLDivElement,
+  sleepCnt: () => number
+) {
+  const ret = arr[idx1] == arr[idx2];
+
+  toggleChange([idx1, idx2], sortBox);
+  await sleep(sleepCnt() / 2); // 2 is random number
+  toggleChange([idx1, idx2], sortBox);
+  return ret;
+}
 export async function valueBiggerClock(
   arr: number[],
   value: number,

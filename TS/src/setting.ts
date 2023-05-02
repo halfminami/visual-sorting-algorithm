@@ -3,6 +3,7 @@ import {
   bubbleSort,
   circlesort,
   combsort,
+  cyclesort,
   gnomesort,
   heapsort,
   insertionsort,
@@ -130,5 +131,11 @@ export const sortDict: {
     sortFunc: oddevensort,
     caption: "odd even sort",
     name: "odd even sort (parallel)",
+  },
+  cyclesort: {
+    selector: ".cyclesort",
+    sortFunc: cyclesort,
+    caption: "cycle sort",
+    name: "cycle sort (simple)",
   },
 };

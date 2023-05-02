@@ -358,18 +358,21 @@ async function circlesort_core(
   if (left >= right) {
     return swapped;
   }
+
   for (; lp < rp; ++lp, --rp) {
     if (await arr.leftBigger(lp, rp)) {
       await arr.swap(lp, rp);
       swapped = true;
     }
   }
+  // for odd
   if (lp == rp) {
     if (await arr.leftBigger(lp, lp + 1)) {
       await arr.swap(lp, lp + 1);
       swapped = true;
     }
   }
+
   const mid = Math.floor(left + (right - left) / 2);
   const retleft = await circlesort_core(arr, left, mid);
   const retright = await circlesort_core(arr, mid + 1, right);
@@ -407,6 +410,7 @@ async function heapsort_check(
   if (rightChild > right) {
     return (await arr.leftBigger(top, leftChild)) ? -1 : leftChild;
   }
+
   let target = (await arr.leftBigger(leftChild, rightChild))
     ? leftChild
     : rightChild;
@@ -430,7 +434,7 @@ async function heapsort_deletetop(arr: ArrayWrap, top: number, right: number) {
 
 /** unlike other sorts, this does swap parallel
  * because that is the major difference from bubble sort.
- * this seems fast but same $O(n^2)$ as bubble sort */
+ * this looks fast but same $O(n^2)$ as bubble sort */
 export async function oddevensort(arr: ArrayWrap) {
   while (1) {
     let sorted = true;
@@ -458,5 +462,48 @@ export async function oddevensort(arr: ArrayWrap) {
       break;
     }
   }
+  return arr;
+}
+
+export async function cyclesort(arr: ArrayWrap) {
+  for (let start = 0; start < arr.array.length - 1; ++start) {
+    let cur = start;
+    for (let i = start + 1; i < arr.array.length; ++i) {
+      if (await arr.leftBigger(start, i)) {
+        cur++;
+      }
+    }
+    if (cur == start) {
+      continue;
+    }
+
+    // in this case there's no duplicate
+    // so this part is not necessary
+    while (await arr.leftIsRight(start, cur)) {
+      cur++;
+    }
+
+    await arr.swap(start, cur);
+
+    while (1) {
+      cur = start;
+      for (let i = start + 1; i < arr.array.length; ++i) {
+        if (await arr.leftBigger(start, i)) {
+          cur++;
+        }
+      }
+
+      if (cur == start) {
+        break;
+      }
+      // this part is not necessary
+      while (await arr.leftIsRight(start, cur)) {
+        cur++;
+      }
+
+      await arr.swap(cur, start);
+    }
+  }
+
   return arr;
 }

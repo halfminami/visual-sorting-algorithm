@@ -57,3 +57,4 @@ I'm afraid I might have implemented wrong!
 - circle sort
 - heap sort
 - odd even sort (parallel)
+- cycle sort

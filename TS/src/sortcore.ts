@@ -13,6 +13,7 @@ import {
   equalsClock,
   valueBiggerClock,
   valueSmallerClock,
+  leftEqualRightClock,
 } from "./sortcommon.js";
 
 export class Sort {
@@ -151,6 +152,17 @@ export class ArrayWrap {
   /** @returns left>right */
   async leftBigger(idx1: number, idx2: number) {
     const ret = await leftBiggerClock(
+      this.array,
+      idx1,
+      idx2,
+      this.sortBox,
+      this.#sleepCnt
+    );
+    return ret;
+  }
+  /** @returns left==right */
+  async leftIsRight(idx1: number, idx2: number) {
+    const ret = await leftEqualRightClock(
       this.array,
       idx1,
       idx2,
