@@ -1,9 +1,9 @@
-# make sorting visual (`element`)
+# Make sorting visual (`element`)
 This visualizes sorting algorithms like many other examples found when googling gif of sorts.
 <img src="./screenshot.png" style="max-width:500px;display:block" alt="sorting screenshot">  
 This uses html element `div`. It is easy to style.
 
-# how to add sort to `mountAll()`
+# How to add sort to `mountAll()`
 ## in `sortfunc.ts` (or any other file)
 - add function that satisfies type `SORTFUNC`
     - use `ArrayWrap` methods to compare/swap/copy and `await` them
@@ -14,13 +14,13 @@ This uses html element `div`. It is easy to style.
 ## in `index.html`
 - add element that satisfies `sortDict` selector
 
-# how to perform sort individually
+# How to perform sort individually
 - `new SortWrap()` all sorts
 - put buttons and inputs to Object `: CONTROLS`
 - `new Sort(...).mount()`
     - uncomment html example at the bottom and see `individual.ts`
 
-# how to use
+# How to use
 ```bash
 git clone https://github.com/halfminami/visual-sorting-algorithm.git
 cd visual-sorting-algorithm
@@ -33,10 +33,10 @@ npm run start
 ```
 and enter the url into browser (only checked on chrome)
 
-## notes
-Clock for sorting (times to compare/swap/copy) is randomly chosen. The actual time differs by architecture.
+## Notes
+Clock for sorting (times to compare/swap/copy) was randomly chosen by me. The actual time differs by architecture.
 
-## sorts i implemented
+## Sorts I implemented
 I'm afraid I might have implemented wrong!
 - bubble sort
 - cocktail shaker sort
