@@ -427,3 +427,36 @@ async function heapsort_deletetop(arr: ArrayWrap, top: number, right: number) {
   await heapsort_heapify(arr, top, right - 1);
   return;
 }
+
+/** unlike other sorts, this does swap parallel
+ * because that is the major difference from bubble sort.
+ * this seems fast but same $O(n^2)$ as bubble sort */
+export async function oddevensort(arr: ArrayWrap) {
+  while (1) {
+    let sorted = true;
+    let promiseArr: Promise<any>[] = [];
+    const compareAndSwap = async (idx1: number, idx2: number) => {
+      if (await arr.leftBigger(idx1, idx2)) {
+        await arr.swap(idx1, idx2);
+        sorted = false;
+      }
+      return;
+    };
+
+    for (let i = 0; i < arr.array.length; i += 2) {
+      promiseArr.push(compareAndSwap(i, i + 1));
+    }
+    await Promise.all(promiseArr);
+
+    promiseArr = [];
+    for (let i = 1; i < arr.array.length; i += 2) {
+      promiseArr.push(compareAndSwap(i, i + 1));
+    }
+    await Promise.all(promiseArr);
+
+    if (sorted) {
+      break;
+    }
+  }
+  return arr;
+}

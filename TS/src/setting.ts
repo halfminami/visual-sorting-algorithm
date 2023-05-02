@@ -8,6 +8,7 @@ import {
   insertionsort,
   insertionsort_bin,
   mergesort,
+  oddevensort,
   quicksort,
   radixsort,
   selectionsort,
@@ -123,5 +124,11 @@ export const sortDict: {
     sortFunc: heapsort,
     caption: "heap sort",
     name: "heap sort (max heap)",
+  },
+  oddevensort: {
+    selector: ".oddevensort",
+    sortFunc: oddevensort,
+    caption: "odd even sort",
+    name: "odd even sort (parallel)",
   },
 };

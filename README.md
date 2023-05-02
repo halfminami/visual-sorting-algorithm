@@ -3,8 +3,8 @@ This visualizes sorting algorithms like many other examples found when googling 
 <img src="./screenshot.png" style="width:500px;display:block" alt="sorting screenshot">  
 This uses html element `div`. It is easy to style.
 
-# how to add sort
-## in `sortfunc.ts`
+# how to add sort to `mountAll()`
+## in `sortfunc.ts` (or any other file)
 - add function that satisfies type `SORTFUNC`
     - use `ArrayWrap` methods to compare/swap/copy and `await` them
     - `export` the function
@@ -18,7 +18,7 @@ This uses html element `div`. It is easy to style.
 - `new SortWrap()` all sorts
 - put buttons and inputs to Object `: CONTROLS`
 - `new Sort(...).mount()`
-    - uncomment html and see `individual.ts`
+    - uncomment html example at the bottom and see `individual.ts`
 
 # how to use
 ```bash
@@ -27,7 +27,7 @@ cd visual-sorting-algorithm
 npm install
 npm run tsc
 ```
-For `script type="module"`, need to run a local server
+Because of using `script type="module"`, need to run a local server
 ```bash
 npm run start
 ```
@@ -42,8 +42,7 @@ I'm afraid I might have implemented wrong!
 - cocktail shaker sort
 - merge sort
 - gnome sort
-- radix sort
-    - base 5 (`"ABCDE"`)
+- radix sort (base 5 `"ABCDE"`)
 - insertion sort
     - simple swap
     - binary search
@@ -57,3 +56,4 @@ I'm afraid I might have implemented wrong!
 - quick sort
 - circle sort
 - heap sort
+- odd even sort (parallel)
