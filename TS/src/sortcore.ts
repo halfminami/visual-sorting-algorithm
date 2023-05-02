@@ -110,7 +110,6 @@ export class SortWrap {
   }
   /** copy array and update unit */
   setArray(arr: number[]): void {
-    // this.array = new ArrayWrap(arr, this.sortBox);
     this.array.setArray(arr);
     this.#setUnit();
   }

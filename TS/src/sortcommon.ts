@@ -1,3 +1,7 @@
+/**
+ * @file collection of common function
+ * mainly manipulates html
+ */
 import { sortDict } from "./setting.js";
 import { ArrayWrap, SortWrap } from "./sortcore.js";
 
