@@ -9,8 +9,10 @@ import {
   insertionsort,
   insertionsort_bin,
   mergesort,
+  mergesort_parallel,
   oddevensort,
   quicksort,
+  quicksort_parallel,
   radixsort,
   selectionsort,
   selectionsort_double,
@@ -53,6 +55,12 @@ export const sortDict: {
     sortFunc: mergesort,
     caption: "merge sort.",
     name: "merge sort",
+  },
+  mergesortpara: {
+    selector: ".mergesort-para",
+    sortFunc: mergesort_parallel,
+    caption: "parallel merge",
+    name: "merge sort (parallel)",
   },
   gnomesort: {
     selector: ".gnomesort",
@@ -113,6 +121,12 @@ export const sortDict: {
     sortFunc: quicksort,
     caption: "quick sort",
     name: "quick sort ((left + right)/2)",
+  },
+  quicksort_para: {
+    selector: ".quicksort-para",
+    sortFunc: quicksort_parallel,
+    caption: "parallel quick sort",
+    name: "quick sort ((left + right)/2) (parallel)",
   },
   circlesort: {
     selector: ".circlesort",

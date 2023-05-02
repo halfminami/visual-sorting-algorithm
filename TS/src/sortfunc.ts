@@ -87,6 +87,49 @@ async function mergesort_core(arr: ArrayWrap, left: number, right: number) {
   }
   return;
 }
+// just `promise.all`ed above function
+async function mergesort_core_parallel(
+  arr: ArrayWrap,
+  left: number,
+  right: number
+) {
+  if (left == right) {
+    return;
+  }
+  let mid = Math.floor(left + (right - left) / 2);
+  await Promise.all([
+    mergesort_core_parallel(arr, left, mid),
+    mergesort_core_parallel(arr, mid + 1, right),
+  ]);
+  const memo: number[] = [];
+  let lp = left,
+    rp = mid + 1;
+  const le = mid,
+    re = right;
+  while (lp <= le && rp <= re) {
+    if (await arr.leftBigger(lp, rp)) {
+      memo.push(arr.array[rp]);
+      rp++;
+    } else {
+      memo.push(arr.array[lp]);
+      lp++;
+    }
+  }
+  for (; lp <= le; ++lp) {
+    memo.push(arr.array[lp]);
+  }
+  for (; rp <= re; ++rp) {
+    memo.push(arr.array[rp]);
+  }
+  for (let i = 0; left <= right && i < memo.length; ++left, ++i) {
+    await arr.equals(left, memo[i]);
+  }
+  return;
+}
+export async function mergesort_parallel(arr: ArrayWrap) {
+  await mergesort_core_parallel(arr, 0, arr.array.length - 1);
+  return arr;
+}
 
 export async function gnomesort(arr: ArrayWrap) {
   let cur = 0;
@@ -309,21 +352,38 @@ export async function combsort(arr: ArrayWrap) {
 }
 
 export async function quicksort(arr: ArrayWrap) {
-  await quicksort_core(arr, 0, arr.array.length - 1);
+  await quicksort_core(
+    arr,
+    0,
+    arr.array.length - 1,
+    (l: number[]) => (arr.array[l[0]] + arr.array[l[1]]) / 2
+  );
 
   return arr;
 }
 /** includes left and right */
-async function quicksort_core(arr: ArrayWrap, left: number, right: number) {
+async function quicksort_core(
+  arr: ArrayWrap,
+  left: number,
+  right: number,
+  pivot: (arr: number[]) => number
+) {
   if (left >= right) {
     return arr;
   }
-  const pivot = (arr.array[left] + arr.array[right]) / 2;
   let lp = left,
     rp = right;
   while (1) {
-    for (; lp <= right && (await arr.valueBigger(pivot, lp)); ++lp) {}
-    for (; rp >= left && (await arr.valueSmaller(pivot, rp)); --rp) {}
+    for (
+      ;
+      lp <= right && (await arr.valueBigger(pivot([left, right]), lp));
+      ++lp
+    ) {}
+    for (
+      ;
+      rp >= left && (await arr.valueSmaller(pivot([left, right]), rp));
+      --rp
+    ) {}
     if (lp < rp) {
       arr.swap(lp, rp);
     } else {
@@ -332,11 +392,62 @@ async function quicksort_core(arr: ArrayWrap, left: number, right: number) {
       }
       if (lp == left) lp++; // avoid infinite recursion
       if (lp == right) lp--;
-      await quicksort_core(arr, left, lp);
-      await quicksort_core(arr, lp, right);
+      await quicksort_core(arr, left, lp, pivot);
+      await quicksort_core(arr, lp, right, pivot);
       return arr;
     }
   }
+
+  return arr;
+}
+// simply `promise.all`ed above function
+async function quicksort_core_parallel(
+  arr: ArrayWrap,
+  left: number,
+  right: number,
+  pivot: (arr: number[]) => number
+) {
+  if (left >= right) {
+    return arr;
+  }
+  let lp = left,
+    rp = right;
+  while (1) {
+    for (
+      ;
+      lp <= right && (await arr.valueBigger(pivot([left, right]), lp));
+      ++lp
+    ) {}
+    for (
+      ;
+      rp >= left && (await arr.valueSmaller(pivot([left, right]), rp));
+      --rp
+    ) {}
+    if (lp < rp) {
+      arr.swap(lp, rp);
+    } else {
+      if (left == right - 1) {
+        return arr;
+      }
+      if (lp == left) lp++; // avoid infinite recursion
+      if (lp == right) lp--;
+      await Promise.all([
+        quicksort_core_parallel(arr, left, lp, pivot),
+        quicksort_core_parallel(arr, lp, right, pivot),
+      ]);
+      return arr;
+    }
+  }
+
+  return arr;
+}
+export async function quicksort_parallel(arr: ArrayWrap) {
+  await quicksort_core_parallel(
+    arr,
+    0,
+    arr.array.length - 1,
+    (l: number[]) => (arr.array[l[0]] + arr.array[l[1]]) / 2
+  );
 
   return arr;
 }

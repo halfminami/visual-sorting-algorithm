@@ -1,6 +1,6 @@
 # make sorting visual (`element`)
 This visualizes sorting algorithms like many other examples found when googling gif of sorts.
-<img src="./screenshot.png" style="width:500px;display:block" alt="sorting screenshot">  
+<img src="./screenshot.png" style="max-width:500px;display:block" alt="sorting screenshot">  
 This uses html element `div`. It is easy to style.
 
 # how to add sort to `mountAll()`
@@ -41,6 +41,8 @@ I'm afraid I might have implemented wrong!
 - bubble sort
 - cocktail shaker sort
 - merge sort
+    - simple merge sort
+    - parallel merge
 - gnome sort
 - radix sort (base 5 `"ABCDE"`)
 - insertion sort
@@ -54,6 +56,8 @@ I'm afraid I might have implemented wrong!
     - divide by 3 (improved gap)
 - comb sort
 - quick sort
+    - simple quick sort, pivot: `(left + right) / 2`
+    - parallel quick sort, pivot: `(left + right) / 2`
 - circle sort
 - heap sort
 - odd even sort (parallel)
